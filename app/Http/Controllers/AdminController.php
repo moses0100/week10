@@ -45,4 +45,38 @@ return redirect('/blog');
         return redirect('/blogs');
     }
 
+    function change($id){
+        $blog=(DB::table('blogs')->where('id',$id)->first());
+        $data=[
+            'status'=>$blog->status
+        ];
+        if($blog->status ==1){
+            $data['status']=0;
+        }else{
+            $data['status']=1;
+        }
+        DB::table('blogs')->where('id',$id)->update($data);
+        return redirect('/blogs');
+    }
+    function edit($id){
+    $blog=(DB::table('blogs')->where('id',$id)->first());
+    return view('edit',compact('blog'));
+}
+function update(Request $request,$id){
+    $request->validate([
+        'title' => 'required|max:50',
+        'content' => 'required',
+    ],[
+        'title.required' => 'กรุณากรอกชื่อบทความ',
+        'title.max' => 'ชื่อบทความต้องไม่เกิน 50 ตัวอักษร',
+        'content.required' => 'กรุณากรอกเนื้อหา',
+    ]);
+    $data =[
+        'title' => $request->title,
+        'content' => $request->content,
+    ];
+    DB::table('blogs')->where('id',$id)->update($data);
+    return redirect('/blogs');
+}   
+
 }
