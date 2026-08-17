@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return "Hello Laravel <a href='".route('login')."'>login</a>";
+});
+
+Route::get('about', function () {
+    return "This is about page";
+});
+
+Route::get('blog/{id}', function ($id) {
+    return "บทความทั้งหมด".$id;
+});
+
+Route::get('admin/user/mos/yadjantuk', function () {
+    return "<h1>ยินดีต้อนรับ admin mos </h1>";
+})->name('login');
+
+Route::fallback(function () {
+    return "หน้านี้ไม่มี";
+});
